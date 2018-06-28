@@ -1,7 +1,7 @@
 {
   "name": "react-ssr-fork",
   "version": "1.0.0",
-  "description": "Fork rendering components depending on client or server side.",
+  "description": "Fork components render depending on client or server side.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

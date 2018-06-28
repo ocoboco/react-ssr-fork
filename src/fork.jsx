@@ -1,9 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
+import { CAN_USE_DOM } from './constants';
 import Server from './server';
 import Client from './client';
 
-export class Fork extends Component {
+export default class Fork extends Component {
   render() {
     const { isClient } = this.props;
     const { client, server } = this.extractClientAndServer();
@@ -40,3 +42,12 @@ export class Fork extends Component {
     return result;
   }
 }
+
+Fork.propTypes = {
+  id: PropTypes.string.isRequired,
+  canUseDom: PropTypes.string.isRequired
+};
+
+Fork.defaultProps = {
+  canUseDom: CAN_USE_DOM
+};
