@@ -1,0 +1,27 @@
+{
+  "name": "react-ssr-fork",
+  "version": "1.0.0",
+  "description": "Fork rendering components depending on client or server side.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ocoboco/react-ssr-fork.git"
+  },
+  "keywords": [
+    "react",
+    "ssr",
+    "client",
+    "server",
+    "switch",
+    "fork"
+  ],
+  "author": "Dmitri Pavlutin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ocoboco/react-ssr-fork/issues"
+  },
+  "homepage": "https://github.com/ocoboco/react-ssr-fork#readme"
+}
