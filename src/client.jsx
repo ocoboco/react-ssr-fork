@@ -1,5 +1,12 @@
-function Client({ children }) {
-  return children;
-}
+import { Component } from 'react';
+import { Consumer } from './context';
 
-export default Client;
+export default class Client extends Component {
+  render() {
+    return <Consumer>{this.renderConsumerContent}</Consumer>;
+  }
+
+  renderConsumerContent = (isClient) => {
+    return isClient ? this.props.children : null;            
+  }
+}
