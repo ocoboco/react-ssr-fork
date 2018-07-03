@@ -7,11 +7,8 @@
     }]
   ],
   "plugins": [
-    "@babel/external-helpers",
-    ["module-resolver", {
-      "extensions": [".js", ".jsx"],
-      "root": ["./src"]
-    }],
+    ["module-resolver", { "root": ["./src"] }],
+    ["transform-react-remove-prop-types", { "mode": "wrap" }],
     "@babel/plugin-proposal-class-properties"
   ]
 }

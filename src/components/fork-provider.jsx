@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { CAN_USE_DOM } from './constants';
-import { Provider } from './context';
+import { CAN_USE_DOM } from 'constants';
+import { Provider } from 'context';
 
 export default class ForkProvider extends Component {
   state = {

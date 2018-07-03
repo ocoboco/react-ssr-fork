@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Consumer } from './context';
+import { Consumer } from 'context';
 
 export default class Client extends Component {
   render() {

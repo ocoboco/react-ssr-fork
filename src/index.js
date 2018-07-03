@@ -1,6 +1,5 @@
-import ForkProvider from './fork-provider';
-import Client from './client';
-import Server from './server';
+import ForkProvider from './components/fork-provider';
+import Client from './components/client';
+import Server from './components/server';
 
 export { ForkProvider, Client, Server };
-
