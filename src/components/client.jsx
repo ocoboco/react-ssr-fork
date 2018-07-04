@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import { Consumer } from 'context';
+import warn from 'warn';
 
 export default class Client extends Component {
   render() {
@@ -8,6 +9,9 @@ export default class Client extends Component {
   }
 
   renderConsumerContent = (isClient) => {
+    if (isClient === undefined) {
+      warn('<Client> component must be wrapped in <ForkProvider>.');
+    }
     return isClient ? this.props.children : null;            
   }
 }

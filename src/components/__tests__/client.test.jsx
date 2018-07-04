@@ -28,4 +28,16 @@ describe('<Client>', function() {
     );
     expect(wrapper.contains(child)).toBe(false);
   });
+
+  test('logs an error when not wrapped in <ForkProvider>', function () {
+    const error = console.error;
+    console.error = jest.fn();
+    mount(
+      <Client>
+        {child}
+      </Client>
+    );
+    expect(console.error.mock.calls.length).toBe(1);
+    console.error = error;
+  });
 });
