@@ -5,7 +5,8 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "npm run clean && rollup -c",
-    "clean": "rm -rf dist/*"
+    "clean": "rm -rf dist/*",
+    "test": "jest"
   },
   "repository": {
     "type": "git",

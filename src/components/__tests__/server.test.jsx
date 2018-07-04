@@ -5,8 +5,9 @@ import Server from 'components/server';
 import ForkProvider from 'components/fork-provider';
 
 describe('<Server>', function() {
-  test('renders the content on server side', async function() {
-    const child = <div>I am child</div>;
+  const child = <div>I am child</div>;
+
+  test('renders the content on server side', function() {
     const wrapper = mount(
       <ForkProvider canUseDom={false}>
         <Server>
@@ -17,8 +18,7 @@ describe('<Server>', function() {
     expect(wrapper.contains(child)).toBe(true);
   });
 
-  test('renders null on client side', async function() {
-    const child = <div>I am child</div>;
+  test('renders null on client side', function() {
     const wrapper = mount(
       <ForkProvider canUseDom={true}>
         <Server>
