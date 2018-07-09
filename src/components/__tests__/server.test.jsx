@@ -29,7 +29,7 @@ describe('<Server>', function () {
     expect(wrapper.contains(child)).toBe(false);
   });
 
-  test('logs an error when not wrapped in <ForkProvider>', function () {
+  test('does not log an error when not wrapped in <ForkProvider>', function () {
     const error = console.error;
     console.error = jest.fn();
     mount(
@@ -37,7 +37,7 @@ describe('<Server>', function () {
         {child}
       </Server>
     );
-    expect(console.error.mock.calls.length).toBe(1);
+    expect(console.error.mock.calls.length).toBe(0);
     console.error = error;
   });
 });

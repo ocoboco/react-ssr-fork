@@ -30,7 +30,7 @@ ReactDOM.hydrate(
 );
 ```
 
-2) And your server side entry file could look this way:
+2) And your server side entry file could look this way (`<ForkProvider>` wrapping can be skipped on server side):
 
 ```jsx
 // server.jsx
@@ -39,11 +39,7 @@ import { renderToString } from 'react-dom/server';
 import { ForkProvider } from 'react-ssr-fork';
 import App from 'your-components/App.jsx';
 
-const content = renderToString(
-  <ForkProvider>
-    <App />    
-  </ForkProvider>,
-);
+const content = renderToString(<App />);
 // ...
 ```
 
@@ -74,7 +70,7 @@ Here's what happens when you run the application:
 * On client side during hydration `<App>` renders `<div>I run on server</div>` (to match the content sent from server), then right away re-renders to actual client content `<div>I run on client</div>`.
 
 ## Requirements
-* Both `<Client>` and `<Server>` **need** to be wrapped inside `<ForkProvider>`
+* Both `<Client>` and `<Server>` **need** to be wrapped inside `<ForkProvider>` on client side. While on server side `<ForkProvider>` is not obligatory
 * On client side the library is intended to be used with `ReactDOM.hydrate()`. Do not use it with `ReactDOM.render()`
 * The library works with **React 16.3** and above
 
@@ -113,4 +109,4 @@ Right away after mounting of `<Message>`, `componentDidMount()` method is invoke
 
 As described above, solving hydration mismatch using two-pass rendering works.  
 
-But there is a drawback. If a new instance of `<Message>` is going to be rendered during runtime on the client side, two-pass rendering will be applied even if that's unnecessary, making your component slower. That's the problem solved by React SSR Fork library, which prevents unnecessary re-rerending.  
+But there is a drawback. If a new instance of `<Message>` is rendered on the client side on later stages, two-pass rendering will be applied even if that's unnecessary. This makes your component slower. That's the problem solved by React SSR Fork library, which prevents unnecessary re-rerending.  
