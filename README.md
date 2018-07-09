@@ -9,11 +9,19 @@ React SSR Fork facilitates rendering different content on server and client side
 * Prevents unecessary client side re-renders when solving hydration mismatch
 * Requires minimum setup and is easy to use.
 
+## Installation
+
+Install the library:  
+
+```bash
+npm install --save react-ssr-fork
+```
+
 ## Usage
 
-Begin with wrapping your main application component inside `<ForkProvider>`. This component contains the business logic of solving hydration mismatch issue, also provides context for `<Client>` and `<Server>` components.  
+Wrap your main application component inside `<ForkProvider>`. This component contains the business logic of solving hydration mismatch issue, also provides context for `<Client>` and `<Server>` components.  
 
-1) Your client side entry might look like this:
+1) Your client side entry might look like this (`<ForkProvider>` wrapping is obligatory on client side):
 
 ```jsx
 // client.jsx
@@ -110,3 +118,51 @@ Right away after mounting of `<Message>`, `componentDidMount()` method is invoke
 As described above, solving hydration mismatch using two-pass rendering works.  
 
 But there is a drawback. If a new instance of `<Message>` is rendered on the client side on later stages, two-pass rendering will be applied even if that's unnecessary. This makes your component slower. That's the problem solved by React SSR Fork library, which prevents unnecessary re-rerending.  
+
+## Unit testing
+
+React SSR Fork components faciliate unit testing of your components.  
+
+`<ForkProvider>` accepts a special boolean prop `canUseDom`. Use it to mock the browser or client environment in your unit test. For example:
+
+```jsx
+import React from 'react';
+import { mount } from 'enzyme';
+
+import ForkProvider from 'components/fork-provider';
+
+function App() {
+  return (
+    <div>
+      <Client>
+        I run on client
+      </Client>
+      <Server>
+        I run on server
+      </Server>
+    </div>
+  );
+}
+
+describe('<App>', function () {
+  test('renders client content on client side', function () {
+    const wrapper = mount(
+      <ForkProvider canUseDom={true}>
+        <App />
+      </ForkProvider>
+    );
+    expect(wrapper.contains('I run on client')).toBe(true);
+    expect(wrapper.contains('I run on server')).toBe(false);
+  });
+
+  test('renders server content on server side', function () {
+    const wrapper = mount(
+      <ForkProvider canUseDom={false}>
+        <App />
+      </ForkProvider>
+    );
+    expect(wrapper.contains('I run on client')).toBe(false);
+    expect(wrapper.contains('I run on server')).toBe(true);
+  });
+});
+```

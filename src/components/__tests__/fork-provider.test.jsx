@@ -6,6 +6,19 @@ import Client from 'components/client';
 import Server from 'components/server';
 import ForkProvider from 'components/fork-provider';
 
+function App() {
+  return (
+    <div>
+      <Client>
+        I run on client
+      </Client>
+      <Server>
+        I run on server
+      </Server>
+    </div>
+  );
+}
+
 describe('<ForkProvider>', function () {
   const clientChild = <div>I am client child</div>;
   const serverChild = <div>I am server child</div>;
@@ -77,5 +90,25 @@ describe('<ForkProvider>', function () {
     );
     expect(console.error.mock.calls.length).toBe(0);
     console.error = error;
+  });
+  
+  test('renders client content on client side with a parent component', function () {
+    const wrapper = mount(
+      <ForkProvider canUseDom={true}>
+        <App />
+      </ForkProvider>
+    );
+    expect(wrapper.contains('I run on client')).toBe(true);
+    expect(wrapper.contains('I run on server')).toBe(false);
+  });
+
+  test('renders client content on client side with a parent component', function () {
+    const wrapper = mount(
+      <ForkProvider canUseDom={false}>
+        <App />
+      </ForkProvider>
+    );
+    expect(wrapper.contains('I run on client')).toBe(false);
+    expect(wrapper.contains('I run on server')).toBe(true);
   });
 });
