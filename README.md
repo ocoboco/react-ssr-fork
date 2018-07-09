@@ -123,7 +123,7 @@ But there is a drawback. If a new instance of `<Message>` is rendered on the cli
 
 React SSR Fork components faciliate unit testing of your components.  
 
-`<ForkProvider>` accepts a special boolean prop `canUseDom`. Use it to mock the browser or client environment in your unit test. For example:
+`<ForkProvider>` accepts a special boolean prop `canUseDom`. Use it to set manually client or server environment in your unit tests. For example:
 
 ```jsx
 import React from 'react';
