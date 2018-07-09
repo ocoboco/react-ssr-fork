@@ -147,7 +147,7 @@ function App() {
 describe('<App>', function () {
   test('renders client content on client side', function () {
     const wrapper = mount(
-      <ForkProvider canUseDom={true}>
+      <ForkProvider canUseDom={true}> // <----- Client environment
         <App />
       </ForkProvider>
     );
@@ -157,7 +157,7 @@ describe('<App>', function () {
 
   test('renders server content on server side', function () {
     const wrapper = mount(
-      <ForkProvider canUseDom={false}>
+      <ForkProvider canUseDom={false}> // <----- Server environment
         <App />
       </ForkProvider>
     );
@@ -166,3 +166,7 @@ describe('<App>', function () {
   });
 });
 ```
+
+## License
+
+Licensed under [MIT](https://github.com/ocoboco/react-ssr-fork/blob/master/LICENSE.md)
