@@ -77,3 +77,40 @@ Here's what happens when you run the application:
 * Both `<Client>` and `<Server>` **need** to be wrapped inside `<ForkProvider>`
 * On client side the library is intended to be used with `ReactDOM.hydrate()`. Do not use it with `ReactDOM.render()`
 * The library works with **React 16.3** and above
+
+## Why not use `this.state.isCient` approach?
+
+`ReactDOM.hydrate()` [documentation](https://reactjs.org/docs/react-dom.html#hydrate) suggests solving hydration mismatch warning using two-pass rendering and `this.state.isClient` flag. Here's a simple imlementation:  
+
+```jsx
+import React, { Component } from 'react';
+
+class Message extends Component {
+  state = { isClient: false }
+
+  render() {
+    return (
+      <div>
+        {this.state.isClient ? 'I run on server' : 'I run on client'}
+      </div>
+    );
+  }
+
+  componentDidMount() {
+    this.setState({ isClient: true });
+  }
+}
+
+ReactDOM.hydrate(
+  <Message />,
+  document.getElementById('root')
+);
+```
+
+On client side during  initial render `this.state.isClient` is `false`. Thus `<Message>` outputs `<div>I run on server</div>`. This output matches the one sent from server side, and React doesn't throw any mismatch warnings during hydration.  
+
+Right away after mounting of `<Message>`, `componentDidMount()` method is invoked and `this.state.isClient` becomes `true`. As result `<Message>` renders `<div>I run on client</div>`.  
+
+As described above, solving hydration mismatch using two-pass rendering works.  
+
+But there is a drawback. If a new instance of `<Message>` is going to be rendered during runtime on the client side, two-pass rendering will be applied even if that's unnecessary, making your component slower. That's the problem solved by React SSR Fork library, which prevents unnecessary re-rerending.  
