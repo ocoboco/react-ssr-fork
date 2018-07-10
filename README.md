@@ -21,7 +21,7 @@ npm install --save react-ssr-fork
 
 Wrap your main application component inside `<ForkProvider>`. This component contains the business logic of solving hydration mismatch issue, also provides context for `<Client>` and `<Server>` components.  
 
-1) Your client side entry might look like this (`<ForkProvider>` wrapping is obligatory on client side):
+1) Your client side entry might look like this (`<ForkProvider>` wrapping is obligatory):
 
 ```jsx
 // client.jsx
@@ -38,7 +38,7 @@ ReactDOM.hydrate(
 );
 ```
 
-2) And your server side entry file could look this way (`<ForkProvider>` wrapping can be skipped on server side):
+2) And your server side entry file could look this way (`<ForkProvider>` wrapping is obligatory):
 
 ```jsx
 // server.jsx
@@ -47,11 +47,15 @@ import { renderToString } from 'react-dom/server';
 import { ForkProvider } from 'react-ssr-fork';
 import App from 'your-components/App.jsx';
 
-const content = renderToString(<App />);
+const content = renderToString(
+  <ForkProvider>
+    <App />
+  </ForkProvider>
+);
 // ...
 ```
 
-3) Then use `<Client>` component to render client side content, and respectively `<Server>` to render server side content. Your `<App>` component might look like this:
+3) Then use `<Client>` component to render specifically client side content, and respectively `<Server>` to render server side content. Your `<App>` component might look like this:
 
 ```jsx
 // App.jsx
@@ -78,8 +82,7 @@ Here's what happens when you run the application:
 * On client side during hydration `<App>` renders `<div>I run on server</div>` (to match the content sent from server), then right away re-renders to actual client content `<div>I run on client</div>`.
 
 ## Requirements
-* On *client side* both `<Client>` and `<Server>` **need** to be wrapped inside `<ForkProvider>` 
-* On *server side* `<ForkProvider>` wrapping can be **skipped**
+* On both *client and server sides* `<Client>` and `<Server>` **must** to be wrapped inside `<ForkProvider>`  
 * Requires **React 16.3** and above
 
 ## Why not use `this.state.isCient` approach?

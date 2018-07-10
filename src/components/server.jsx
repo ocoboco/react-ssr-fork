@@ -9,6 +9,9 @@ export default class Server extends Component {
   }
 
   renderConsumerContent = (isClient) => {
+    if (isClient == undefined) {
+      warn('<Server> component must be wrapped in <ForkProvider>.');
+    }
     return isClient ? null : this.props.children;
   }
 }

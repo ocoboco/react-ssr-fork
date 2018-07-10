@@ -1,6 +1,6 @@
 {
   "name": "react-ssr-fork",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "React SSR Fork facilitates rendering different content on server and client side.",
   "main": "dist/index.js",
   "scripts": {
