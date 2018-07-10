@@ -78,9 +78,9 @@ Here's what happens when you run the application:
 * On client side during hydration `<App>` renders `<div>I run on server</div>` (to match the content sent from server), then right away re-renders to actual client content `<div>I run on client</div>`.
 
 ## Requirements
-* Both `<Client>` and `<Server>` **need** to be wrapped inside `<ForkProvider>` on client side. While on server side `<ForkProvider>` is not obligatory
-* On client side the library is intended to be used with `ReactDOM.hydrate()`. Do not use it with `ReactDOM.render()`
-* The library works with **React 16.3** and above
+* On *client side* both `<Client>` and `<Server>` **need** to be wrapped inside `<ForkProvider>` 
+* On *server side* `<ForkProvider>` wrapping can be **skipped**
+* Requires **React 16.3** and above
 
 ## Why not use `this.state.isCient` approach?
 
@@ -111,25 +111,25 @@ ReactDOM.hydrate(
 );
 ```
 
-On client side during  initial render `this.state.isClient` is `false`. Thus `<Message>` outputs `<div>I run on server</div>`. This output matches the one sent from server side, and React doesn't throw any mismatch warnings during hydration.  
+On client side during  initial render (hydration) `this.state.isClient` is `false`. Thus `<Message>` outputs `<div>I run on server</div>`. This output matches the one sent from server side, and React doesn't throw any mismatch warnings during hydration.  
 
 Right away after mounting of `<Message>`, `componentDidMount()` method is invoked and `this.state.isClient` becomes `true`. As result `<Message>` renders `<div>I run on client</div>`.  
 
 As described above, solving hydration mismatch using two-pass rendering works.  
 
-But there is a drawback. If a new instance of `<Message>` is rendered on the client side on later stages, two-pass rendering will be applied even if that's unnecessary. This makes your component slower. That's the problem solved by React SSR Fork library, which prevents unnecessary re-rerending.  
+But there is a drawback. If a new instance of `<Message>` is rendered on the client side on later stages, two-pass rendering will be applied even if that's unnecessary. This makes your component slower. That's the problem solved by React SSR Fork library, which *prevents unnecessary two-pass rendering* when this is not necessary.  
 
 ## Unit testing
 
 React SSR Fork components faciliate unit testing of your components.  
 
-`<ForkProvider>` accepts a special boolean prop `canUseDom`. Use it to set manually client or server environment in your unit tests. For example:
+`<ForkProvider>` accepts a special boolean prop `canUseDom` meant to indicate manually the client or server environment in your unit tests. For example:
 
 ```jsx
 import React from 'react';
 import { mount } from 'enzyme';
 
-import ForkProvider from 'components/fork-provider';
+import { ForkProvider } from 'react-ssr-fork';
 
 function App() {
   return (
@@ -147,7 +147,8 @@ function App() {
 describe('<App>', function () {
   test('renders client content on client side', function () {
     const wrapper = mount(
-      <ForkProvider canUseDom={true}> // <----- Client environment
+      // Client environment: canUseDom=true
+      <ForkProvider canUseDom={true}>
         <App />
       </ForkProvider>
     );
@@ -157,7 +158,8 @@ describe('<App>', function () {
 
   test('renders server content on server side', function () {
     const wrapper = mount(
-      <ForkProvider canUseDom={false}> // <----- Server environment
+      // Server environment: canUseDom=false
+      <ForkProvider canUseDom={false}>
         <App />
       </ForkProvider>
     );
