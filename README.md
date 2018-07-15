@@ -98,7 +98,7 @@ class Message extends Component {
   render() {
     return (
       <div>
-        {this.state.isClient ? 'I run on server' : 'I run on client'}
+        {this.state.isClient ? 'I run on client' : 'I run on server'}
       </div>
     );
   }
@@ -113,14 +113,14 @@ ReactDOM.hydrate(
   document.getElementById('root')
 );
 ```
+On server side `<Message>` renders `<div>I run on server</div>`.  
 
-On client side during  initial render (hydration) `this.state.isClient` is `false`. Thus `<Message>` outputs `<div>I run on server</div>`. This output matches the one sent from server side, and React doesn't throw any mismatch warnings during hydration.  
-
+On client side during initial render (hydration) `this.state.isClient` is `false`, so `<Message>` outputs `<div>I run on server</div>`. This output matches the one sent from server side, and React doesn't throw any mismatch warnings during hydration.  
 Right away after mounting of `<Message>`, `componentDidMount()` method is invoked and `this.state.isClient` becomes `true`. As result `<Message>` renders `<div>I run on client</div>`.  
 
 As described above, solving hydration mismatch using two-pass rendering works.  
 
-But there is a drawback. If a new instance of `<Message>` is rendered on the client side on later stages, two-pass rendering will be applied even if that's unnecessary. This makes your component slower. That's the problem solved by React SSR Fork library, which *prevents unnecessary two-pass rendering* when this is not necessary.  
+But there is a drawback. If a new instance of `<Message>` is rendered on the client side on later stages, two-pass rendering will be applied even if that's unnecessary. This makes your component slower. That's the problem solved by React SSR Fork library, which *prevents unnecessary two-pass rendering*.  
 
 ## Unit testing
 
